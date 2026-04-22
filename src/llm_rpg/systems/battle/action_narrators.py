@@ -129,12 +129,12 @@ class LLMActionNarrator(ActionNarrator):
             total_damage=total_damage,
         )
         if self.debug:
-            print("////////////DEBUG ActionNarrator prompt////////////")
+            print("++++++++ DEBUG ActionNarrator prompt ++++++++")
             print(prompt)
-            print("////////////DEBUG ActionNarrator prompt////////////")
+            print("++++++++ DEBUG ActionNarrator prompt ++++++++")
         output = self.llm.generate_completion(prompt=prompt)
         if self.debug:
-            print("////////////DEBUG ActionNarrator output////////////")
+            print("-------- DEBUG ActionNarrator output --------")
             print(output)
-            print("////////////DEBUG ActionNarrator output////////////")
+            print("-------- DEBUG ActionNarrator output --------")
         return self._sanitize_text(output)

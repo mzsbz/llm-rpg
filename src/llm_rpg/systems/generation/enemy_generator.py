@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-import json
 import random
 from typing import Annotated
 
@@ -84,21 +83,24 @@ class EnemyGenerator:
             enemy_adjective=enemy_adjective,
             enemy_place=enemy_place,
         )
-        schema = json.dumps(LLMEnemyDescriptionOutput.model_json_schema(), indent=2)
-        return f"{prompt}{schema}"
+        return prompt
 
     def _generate_enemy_description(self) -> EnemyDescription:
         attempts = 0
         while attempts < 3:
             prompt = self._get_prompt()
             if self.debug:
-                print("////////////DEBUG EnemyGeneration prompt////////////")
+                print("++++++++ DEBUG EnemyGeneration prompt ++++++++")
                 print(prompt)
-                print("////////////DEBUG EnemyGeneration prompt////////////")
+                print("++++++++ DEBUG EnemyGeneration prompt ++++++++")
             try:
                 output = self.llm.generate_structured_completion(
                     prompt=prompt, output_model=LLMEnemyDescriptionOutput
                 )
+                if self.debug:
+                    print("-------- DEBUG EnemyGeneration output --------")
+                    print(output)
+                    print("-------- DEBUG EnemyGeneration output --------")
                 return EnemyDescription(
                     name=output.name.strip(),
                     description=output.description.strip(),

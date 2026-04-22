@@ -40,7 +40,12 @@ class LLMEnemyActionGenerator(EnemyActionGenerator):
             battle_log_string=battle_log_string,
         )
         if self.debug:
-            print("////////////DEBUG EnemyAction prompt////////////")
+            print("++++++++ DEBUG EnemyAction prompt ++++++++")
             print(prompt)
-            print("////////////DEBUG EnemyAction prompt////////////")
-        return self.llm.generate_completion(prompt)
+            print("++++++++ DEBUG EnemyAction prompt ++++++++")
+        output = self.llm.generate_completion(prompt)
+        if self.debug:
+            print("-------- DEBUG EnemyAction output --------")
+            print(output)
+            print("-------- DEBUG EnemyAction output --------")
+        return output

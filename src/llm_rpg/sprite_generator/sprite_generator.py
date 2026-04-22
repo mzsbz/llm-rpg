@@ -111,14 +111,14 @@ class SDSpriteGenerator(SpriteGenerator):
             )
             try:
                 if self.debug:
-                    print("////////////DEBUG SpritePrompt LLM prompt////////////")
+                    print("++++++++ DEBUG SpritePrompt LLM prompt ++++++++")
                     print(prompt)
-                    print("////////////DEBUG SpritePrompt LLM prompt////////////")
+                    print("++++++++ DEBUG SpritePrompt LLM prompt ++++++++")
                 output = self.prompt_llm.generate_completion(prompt=prompt)
                 if self.debug:
-                    print("////////////DEBUG SpritePrompt LLM response////////////")
+                    print("-------- DEBUG SpritePrompt LLM response --------")
                     print(output)
-                    print("////////////DEBUG SpritePrompt LLM response////////////")
+                    print("-------- DEBUG SpritePrompt LLM response --------")
                 return output.strip()
             except Exception:
                 attempts += 1
@@ -154,9 +154,9 @@ class SDSpriteGenerator(SpriteGenerator):
         sprite_prompt = self._build_sprite_prompt(enemy)
         prompt = f"{self.trigger_prompt}, {sprite_prompt}"
         if self.debug:
-            print("////////////DEBUG Diffusion prompt////////////")
+            print("++++++++ DEBUG Diffusion prompt ++++++++")
             print(prompt)
-            print("////////////DEBUG Diffusion prompt////////////")
+            print("++++++++ DEBUG Diffusion prompt ++++++++")
         sprite = pipe(
             prompt,
             num_inference_steps=self.num_inference_steps,

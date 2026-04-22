@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-import json
 from typing import Annotated
 
 from pydantic import BaseModel, Field
@@ -96,8 +95,7 @@ class LLMActionJudge(ActionJudge):
             battle_log_string=battle_log_string,
             proposed_action_attacker=proposed_action_attacker,
         )
-        schema = json.dumps(LLMActionJudgmentOutput.model_json_schema(), indent=2)
-        return f"{prompt}{schema}"
+        return prompt
 
     def judge_action(
         self,
@@ -117,13 +115,17 @@ class LLMActionJudge(ActionJudge):
                 proposed_action_attacker=proposed_action_attacker,
             )
             if self.debug:
-                print("////////////DEBUG ActionJudge prompt////////////")
+                print("++++++++ DEBUG ActionJudge prompt ++++++++")
                 print(prompt)
-                print("////////////DEBUG ActionJudge prompt////////////")
+                print("++++++++ DEBUG ActionJudge prompt ++++++++")
             try:
                 unscaled_output = self.llm.generate_structured_completion(
                     prompt=prompt, output_model=LLMActionJudgmentOutput
                 )
+                if self.debug:
+                    print("-------- DEBUG ActionJudge output --------")
+                    print(unscaled_output)
+                    print("-------- DEBUG ActionJudge output --------")
                 return ActionJudgment(
                     feasibility=unscaled_output.feasibility / 10,
                     potential_damage=unscaled_output.potential_damage / 10,

@@ -127,92 +127,47 @@ creativity_tracker:
   word_overuse_threshold: 2
 prompts:
   action_judge: |
-    You are a video game ai that determines the feasibility and potential damage of proposed actions in a battle
-    between two characters.
+    Score a battle action's feasibility and potential damage (0–10 each).
 
-    The characters are:
-    - {attacker_name}
-    - {defender_name}
+    Attacker: {attacker_name} — {attacker_description}
+    Defender: {defender_name} — {defender_description}
+    {hero_name}'s inventory: {items_hero}
 
-    {attacker_name} is attacking {defender_name}.
-
-    {attacker_name} description:
-    {attacker_description}
-
-    {defender_name} description:
-    {defender_description}
-
-    {hero_name} items in inventory:
-    {items_hero}
-
-    Battle history:
+    History:
     {battle_log_string}
 
-    Proposed action of {attacker_name}:
-    {proposed_action_attacker}
+    Action: {proposed_action_attacker}
 
-    You should score feasibility and potential damage. Actions should have different effects depending on the history.
+    Scoring rules:
+    - Penalize actions using items {hero_name} doesn't have
+    - Penalize supernatural moves unless {hero_name}'s description/items support it
+    - Penalize repeated actions (check history) and vague actions
 
-    It is infeasible for {hero_name} to use items not in his inventory.
-    Supernatural moves by {hero_name} are impossible unless the items or description of {hero_name} hints at it.
-    
-    Important: repeated actions by {attacker_name} should have reduced potential damage, look in the battle history for past actions.
-    Vaguely worded actions should also have reduced potential damage as I want to promote precise or verbose actions.
-
-    I need you to output the feasibility and potential damage of the proposed action in the following JSON format:
+    Output JSON.
 
   action_narration: |
-    You are a video game narrator that describes the result of a proposed action in a battle.
+    Narrate a battle action result in one sentence.
 
-    The characters are:
-    - {attacker_name}
-    - {defender_name}
+    Attacker: {attacker_name} — {attacker_description}
+    Defender: {defender_name} — {defender_description}
+    {hero_name}'s inventory: {items_hero}
 
-    {attacker_name} is attacking {defender_name}.
-
-    {attacker_name} description:
-    {attacker_description}
-
-    {defender_name} description:
-    {defender_description}
-
-    {hero_name} items in inventory:
-    {items_hero}
-
-    Battle history:
+    History:
     {battle_log_string}
 
-    Proposed action of {attacker_name}:
-    {proposed_action_attacker}
+    Action: {proposed_action_attacker}
+    Feasibility: {feasibility} | Damage potential: {potential_damage} | Damage dealt: {total_damage}
 
-    Feasibility score: {feasibility}
-    Potential damage score: {potential_damage}
-    Total damage dealt: {total_damage}
-
-    Describe the effect of the action in a single sentence. If the action was infeasible, explain why.
+    One sentence only. If infeasible, explain why instead.
 
   enemy_next_action: |
-    You are a video game character called {self_name} that is in a battle against an enemy called {hero_name}.
-    Try to come up with a natural action based on the battle history and the current HP of both characters.
-    
-    You should try to defeat the enemy or reduce their HP to 0.
+    You are {self_name} ({self_description}) fighting {hero_name} ({hero_description}).
+    Your HP: {self_max_hp} | {hero_name}'s HP: {hero_max_hp}
 
-    Don't repeat the same action every turn.
-    
-    You have the following description:
-    {self_description}
-
-    The enemy, {hero_name}, has the following description:
-    {hero_description}
-
-    Current battle history:
+    History:
     {battle_log_string}
 
-    HP of you, {self_name}: {self_max_hp}
-    HP of {hero_name}: {hero_max_hp}
-    
-    Describe your next action very briefly in third person like a narrator would.
-    Just describe what you want to do not the effects or results of the action.
+    Choose your next attack. Vary from past actions. Write one brief third-person sentence describing only what you do, not the outcome.
 
   enemy_generation: |
     You are generating a single enemy for a turn-based RPG battle.
@@ -227,4 +182,4 @@ prompts:
       - Quirkiness should come from personality, behavior, or theme — not random word combinations
       - Simple and memorable is better than complex and obscure
 
-    Output only valid JSON matching this schema:
+    Output your answer as JSON.
