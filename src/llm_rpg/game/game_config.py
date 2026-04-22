@@ -26,7 +26,7 @@ from llm_rpg.systems.battle.enemy_scaling import (
     LevelingAttributeProbs,
 )
 from llm_rpg.systems.hero.hero import HeroClass
-from llm_rpg.llm.llm import LLM, OllamaLLM, GroqLLM, CerebrasLLM
+from llm_rpg.llm.llm import LLM, CerebrasLLM
 from llm_rpg.llm.llm_cost_tracker import LLMCostTracker
 from llm_rpg.sprite_generator.sprite_generator import (
     DummySpriteGenerator,
@@ -45,16 +45,6 @@ class GameConfig:
             self.game_config = yaml.safe_load(file)
 
     def _build_llm(self, llm_config: dict) -> LLM:
-        if llm_config["type"] == "ollama":
-            return OllamaLLM(
-                llm_cost_tracker=LLMCostTracker(),
-                model=llm_config["model"],
-            )
-        if llm_config["type"] == "groq":
-            return GroqLLM(
-                llm_cost_tracker=LLMCostTracker(),
-                model=llm_config["model"],
-            )
         if llm_config["type"] == "cerebras":
             return CerebrasLLM(
                 llm_cost_tracker=LLMCostTracker(),
@@ -66,12 +56,7 @@ class GameConfig:
         return (
             "type" in block
             and "model" in block
-            and block["type"]
-            in [
-                "ollama",
-                "groq",
-                "cerebras",
-            ]
+            and block["type"] == "cerebras"
         )
 
     def _extract_llm_block(self, block: dict) -> dict:

@@ -28,10 +28,10 @@ uv run pre-commit run --all-files
 
 Create `config/.env` with:
 ```
-GROQ_API_KEY=your_api_key_here
+CEREBRAS_API_KEY=your_api_key_here
 ```
 
-For local LLMs, configure `config/game_config.yaml` to use `type: "ollama"` for any of the three LLM roles (`action_judge`, `narrator`, `enemy_action`). Sprite generation requires model files under `models/sprite/` (see README).
+Sprite generation requires model files under `models/sprite/` (see README).
 
 ## Architecture
 
@@ -52,7 +52,7 @@ Scenes: `main_menu`, `hero_creation`, `resting_hub`, `battle`, `game_over`.
 
 ### LLM Layer
 
-`LLM` is an abstract base with two concrete backends: `GroqLLM` (uses OpenAI-compatible API) and `OllamaLLM`. Both implement `generate_completion(prompt) -> str` and `generate_structured_completion(prompt, output_schema) -> BaseModel`. Each instance carries an `LLMCostTracker`; total cost is printed on exit.
+`LLM` is an abstract base with one concrete backend: `CerebrasLLM` (uses OpenAI-compatible API). It implements `generate_completion(prompt) -> str` and `generate_structured_completion(prompt, output_schema) -> BaseModel`. Each instance carries an `LLMCostTracker`; total cost is printed on exit.
 
 LLM roles are configured in `config/game_config.yaml` under `action_judge`, `narrator`, `enemy_action`, and `enemy_generation`. Prompts are also stored in that file under the `prompts` key.
 
