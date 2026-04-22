@@ -135,8 +135,15 @@ class BattleHeroThinkingState(State):
                 self.processing_done = True
                 return
 
+            expanded_action = self.battle_scene.player_action_generator.expand_action(
+                raw_action=self.proposed_action.action,
+                hero=self.battle_scene.hero,
+                enemy=self.battle_scene.enemy,
+                battle_log=self.battle_scene.battle_log,
+            )
+
             action_judgment = self.battle_scene.battle_ai.determine_action_judgment(
-                proposed_action_attacker=self.proposed_action.action,
+                proposed_action_attacker=expanded_action,
                 hero=self.battle_scene.hero,
                 enemy=self.battle_scene.enemy,
                 is_hero_attacker=True,
@@ -166,7 +173,7 @@ class BattleHeroThinkingState(State):
                 )
             )
             action_effect = self.battle_scene.battle_ai.describe_action(
-                proposed_action_attacker=self.proposed_action.action,
+                proposed_action_attacker=expanded_action,
                 hero=self.battle_scene.hero,
                 enemy=self.battle_scene.enemy,
                 is_hero_attacker=True,

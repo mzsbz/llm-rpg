@@ -20,6 +20,10 @@ from llm_rpg.systems.battle.enemy_action_generators import (
     EnemyActionGenerator,
     LLMEnemyActionGenerator,
 )
+from llm_rpg.systems.battle.player_action_generators import (
+    PlayerActionGenerator,
+    LLMPlayerActionGenerator,
+)
 from llm_rpg.systems.battle.enemy_scaling import (
     EnemyArchetypesLevelingAttributeProbs,
     LevelScaling,
@@ -133,6 +137,14 @@ class GameConfig:
         llm = self._build_llm(llm_config)
         return LLMEnemyActionGenerator(
             llm=llm, prompt=self.enemy_next_action_prompt, debug=self.debug_mode
+        )
+
+    @cached_property
+    def player_action_generator(self) -> PlayerActionGenerator:
+        llm_config = self._get_llm_config("player_action")
+        llm = self._build_llm(llm_config)
+        return LLMPlayerActionGenerator(
+            llm=llm, prompt=self.player_action_expansion_prompt, debug=self.debug_mode
         )
 
     @cached_property
@@ -338,6 +350,10 @@ class GameConfig:
     @cached_property
     def enemy_next_action_prompt(self) -> str:
         return self.game_config["prompts"]["enemy_next_action"]
+
+    @cached_property
+    def player_action_expansion_prompt(self) -> str:
+        return self.game_config["prompts"]["player_action_expansion"]
 
     @cached_property
     def enemy_generation_prompt(self) -> str:

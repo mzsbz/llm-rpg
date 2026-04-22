@@ -18,6 +18,10 @@ enemy_action:
   llm:
     model: "llama3.1-8b"
     type: "cerebras"
+player_action:
+  llm:
+    model: "llama3.1-8b"
+    type: "cerebras"
 enemy_generation:
   llm:
     model: "llama3.1-8b"
@@ -154,6 +158,17 @@ prompts:
     Feasibility: {feasibility} | Damage potential: {potential_damage} | Damage dealt: {total_damage}
 
     One sentence only. Describe the action as it happens, naturally incorporating that {total_damage} damage was dealt (e.g. "...dealing {total_damage} damage"). If infeasible, briefly describe the failed attempt.
+
+  player_action_expansion: |
+    {hero_name} ({hero_description}) is fighting {enemy_name} ({enemy_description}).
+    {hero_name}'s items: {hero_items}
+
+    History:
+    {battle_log_string}
+
+    Player command: "{raw_action}"
+
+    Expand this into one brief third-person sentence describing exactly what {hero_name} does. Be specific about how they use their body or items. Do not include the outcome or damage.
 
   enemy_next_action: |
     You are {self_name} ({self_description}) fighting {hero_name} ({hero_description}).

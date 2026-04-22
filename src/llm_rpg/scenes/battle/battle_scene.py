@@ -57,6 +57,7 @@ class BattleScene(Scene):
             word_overuse_threshold=game.config.creativity_word_overuse_threshold
         )
         self.damage_calculator = DamageCalculator(game_config=game.config)
+        self.player_action_generator = self.game.config.player_action_generator
         self.pending_hero_action: ProposedHeroAction | None = None
         self.latest_event = None
 
