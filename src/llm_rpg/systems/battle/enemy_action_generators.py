@@ -41,10 +41,10 @@ class LLMEnemyActionGenerator(EnemyActionGenerator):
         if self.debug:
             print("++++++++ DEBUG EnemyAction prompt ++++++++")
             print(prompt)
-            print("=" * 10)
+            print("=" * 50)
         output = self.llm.generate_completion(prompt)
         if self.debug:
             print("-------- DEBUG EnemyAction output --------")
             print(output)
-            print("=" * 10)
+            print("=" * 50)
         return output

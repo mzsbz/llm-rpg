@@ -91,7 +91,7 @@ class EnemyGenerator:
             if self.debug:
                 print("++++++++ DEBUG EnemyGeneration prompt ++++++++")
                 print(prompt)
-                print("=" * 10)
+                print("=" * 50)
             try:
                 output = self.llm.generate_structured_completion(
                     prompt=prompt, output_model=LLMEnemyDescriptionOutput
@@ -99,7 +99,7 @@ class EnemyGenerator:
                 if self.debug:
                     print("-------- DEBUG EnemyGeneration output --------")
                     print(output)
-                    print("=" * 10)
+                    print("=" * 50)
                 return EnemyDescription(
                     name=output.name.strip(),
                     description=output.description.strip(),

@@ -4,7 +4,7 @@ display:
   windowed_scale: 3
 battle_background:
   base_resolution: [160, 120]
-  speed_multiplier: 1.5 
+  speed_multiplier: 1.5
 action_judge:
   backend: "llm"
   llm:
@@ -51,7 +51,7 @@ sprite_generator:
     - Each tag should be usable directly as a Stable Diffusion prompt
     - Describe ONLY the physical appearance of this character.
   guidance_scale: 7
-  num_inference_steps: 40 
+  num_inference_steps: 40
   inference_height: 512
   inference_width: 512
   vae_path: null
@@ -146,10 +146,10 @@ prompts:
     Output JSON.
 
   action_narration: |
-    Describe a battle action in one sentence, weaving in the damage dealt.
+    Describe a battle action in present tense, in one sentence, weaving in the damage dealt.
 
-    Attacker: {attacker_name}
-    Defender: {defender_name}
+    Attacker: {attacker_name} — {attacker_description}
+    Defender: {defender_name} — {defender_description}
     Action: {proposed_action_attacker}
     Feasibility: {feasibility} | Damage potential: {potential_damage} | Damage dealt: {total_damage}
 
@@ -170,9 +170,9 @@ prompts:
     - Adjective: "{enemy_adjective}"
     - Noun: "{enemy_character}"
     - Place/setting: "{enemy_place}"
-    
+
     Create a coherent, memorable enemy name and a short description:
-    Style Guidelines: 
+    Style Guidelines:
       - Fits a quirky SNES-era RPG (EarthBound, Dragon Quest–like)
       - Quirkiness should come from personality, behavior, or theme — not random word combinations
       - Simple and memorable is better than complex and obscure

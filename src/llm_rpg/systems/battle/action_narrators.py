@@ -46,11 +46,13 @@ class LLMActionNarrator(ActionNarrator):
         }
 
     def _sanitize_text(self, text: str) -> str:
-        text = text.replace("’", "'")
-        allowed = {"'", ".", "?", "!"}
+        text = text.replace("\u2019", "’")
+        allowed = {"’", ".", "?", "!", ",", ":", "-", ";", "(", ")", "%", "+"}
         filtered = "".join(
             [
-                char if char.isalpha() or char.isspace() or char in allowed else " "
+                char
+                if char.isalpha() or char.isdigit() or char.isspace() or char in allowed
+                else " "
                 for char in text
             ]
         )
@@ -79,13 +81,19 @@ class LLMActionNarrator(ActionNarrator):
     ) -> str:
         if is_hero_attacker:
             attacker_name = hero.name
+            attacker_description = hero.description
             defender_name = enemy.name
+            defender_description = enemy.description
         else:
             attacker_name = enemy.name
+            attacker_description = enemy.description
             defender_name = hero.name
+            defender_description = hero.description
         return self.prompt.format(
             attacker_name=attacker_name,
+            attacker_description=attacker_description,
             defender_name=defender_name,
+            defender_description=defender_description,
             proposed_action_attacker=proposed_action_attacker,
             feasibility=self._label_feasibility(judgment.feasibility),
             potential_damage=self._label_damage(judgment.potential_damage),
@@ -112,10 +120,10 @@ class LLMActionNarrator(ActionNarrator):
         if self.debug:
             print("++++++++ DEBUG ActionNarrator prompt ++++++++")
             print(prompt)
-            print("=" * 10)
+            print("=" * 50)
         output = self.llm.generate_completion(prompt=prompt)
         if self.debug:
             print("-------- DEBUG ActionNarrator output --------")
             print(output)
-            print("=" * 10)
+            print("=" * 50)
         return self._sanitize_text(output)
