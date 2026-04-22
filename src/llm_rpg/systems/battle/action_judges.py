@@ -74,7 +74,8 @@ class LLMActionJudge(ActionJudge):
         proposed_action_attacker: str,
     ) -> str:
         items_hero = self._format_items(hero.inventory.items)
-        hero_name = hero.name
+        hero_stats = hero.get_current_stats()
+        enemy_stats = enemy.get_current_stats()
         if is_hero_attacker:
             attacker_name = hero.name
             defender_name = enemy.name
@@ -90,7 +91,20 @@ class LLMActionJudge(ActionJudge):
             defender_name=defender_name,
             attacker_description=attacker_description,
             defender_description=defender_description,
-            hero_name=hero_name,
+            hero_name=hero.name,
+            hero_class=hero.class_name,
+            hero_hp=hero.hp,
+            hero_max_hp=hero_stats.max_hp,
+            hero_attack=hero_stats.attack,
+            hero_defense=hero_stats.defense,
+            hero_focus=hero_stats.focus,
+            enemy_name=enemy.name,
+            enemy_archetype=enemy.archetype.value,
+            enemy_hp=enemy.hp,
+            enemy_max_hp=enemy_stats.max_hp,
+            enemy_attack=enemy_stats.attack,
+            enemy_defense=enemy_stats.defense,
+            enemy_focus=enemy_stats.focus,
             items_hero=items_hero,
             battle_log_string=battle_log_string,
             proposed_action_attacker=proposed_action_attacker,

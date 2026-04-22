@@ -135,7 +135,11 @@ prompts:
 
     Attacker: {attacker_name} — {attacker_description}
     Defender: {defender_name} — {defender_description}
-    {hero_name}'s inventory: {items_hero}
+
+    Battle state:
+      {hero_name} [{hero_class}] — HP {hero_hp}/{hero_max_hp} | ATK {hero_attack} DEF {hero_defense} FOC {hero_focus}
+      {enemy_name} [{enemy_archetype}] — HP {enemy_hp}/{enemy_max_hp} | ATK {enemy_attack} DEF {enemy_defense} FOC {enemy_focus}
+      {hero_name}'s items: {items_hero}
 
     History:
     {battle_log_string}
@@ -143,9 +147,11 @@ prompts:
     Action: {proposed_action_attacker}
 
     Scoring rules:
-    - Penalize actions using items {hero_name} doesn't have
-    - Penalize supernatural moves unless {hero_name}'s description/items support it
+    - Natural physical actions (kick, punch, push, headbutt, spit, bite, etc.) are always feasible for any combatant — do not penalize them
+    - Penalize actions that require items {hero_name} doesn't have, or supernatural/magical moves unless {hero_name}'s class, description, or items support them
     - Penalize repeated actions (check history) and vague actions
+    - Weight damage potential against the defender's defense stat and archetype
+    - Consider {hero_name}'s focus stat for precision or magic-based actions
 
     Output JSON.
 
@@ -160,7 +166,7 @@ prompts:
     One sentence only. Describe the action as it happens, naturally incorporating that {total_damage} damage was dealt (e.g. "...dealing {total_damage} damage"). If infeasible, briefly describe the failed attempt.
 
   player_action_expansion: |
-    {hero_name} ({hero_description}) is fighting {enemy_name} ({enemy_description}).
+    {hero_name} [{hero_class}] (HP {hero_hp}/{hero_max_hp} | ATK {hero_attack} DEF {hero_defense} FOC {hero_focus}) is fighting {enemy_name} [{enemy_archetype}] (HP {enemy_hp}/{enemy_max_hp}).
     {hero_name}'s items: {hero_items}
 
     History:
@@ -168,16 +174,20 @@ prompts:
 
     Player command: "{raw_action}"
 
-    Expand this into one brief third-person sentence describing exactly what {hero_name} does. Be specific about how they use their body or items. Do not include the outcome or damage.
+    Expand this into one brief third-person sentence describing exactly what {hero_name} does. Be specific about how they use their body or items. Any combatant can use natural physical actions (kick, punch, push, headbutt, spit, etc.) — items and class only expand what's possible beyond that. Do not include the outcome or damage.
 
   enemy_next_action: |
-    You are {self_name} ({self_description}) fighting {hero_name} ({hero_description}).
-    Your HP: {self_max_hp} | {hero_name}'s HP: {hero_max_hp}
+    You are {self_name} [{self_archetype}] ({self_description}).
+    Your stats — HP {self_hp}/{self_max_hp} | ATK {self_attack} DEF {self_defense} FOC {self_focus}
+
+    Opponent: {hero_name} [{hero_class}] ({hero_description})
+    Their stats — HP {hero_hp}/{hero_max_hp} | ATK {hero_attack} DEF {hero_defense} FOC {hero_focus}
+    Their items: {hero_items}
 
     History:
     {battle_log_string}
 
-    Choose your next attack. Vary from past actions. Write one brief third-person sentence describing only what you do, not the outcome.
+    Choose your next attack. You can always use natural physical actions (kick, punch, push, headbutt, bite, etc.) — your archetype and stats shape your style, not your options. Vary from past actions. Write one brief third-person sentence describing only what you do, not the outcome.
 
   enemy_generation: |
     You are generating a single enemy for a turn-based RPG battle.

@@ -33,11 +33,22 @@ class LLMPlayerActionGenerator(PlayerActionGenerator):
             f"  - {item.name}: {item.description}"
             for item in hero.inventory.items
         )
+        hero_stats = hero.get_current_stats()
+        enemy_stats = enemy.get_current_stats()
         prompt = self.prompt.format(
             hero_name=hero.name,
+            hero_class=hero.class_name,
             hero_description=hero.description,
+            hero_hp=hero.hp,
+            hero_max_hp=hero_stats.max_hp,
+            hero_attack=hero_stats.attack,
+            hero_defense=hero_stats.defense,
+            hero_focus=hero_stats.focus,
             enemy_name=enemy.name,
             enemy_description=enemy.description,
+            enemy_archetype=enemy.archetype.value,
+            enemy_hp=enemy.hp,
+            enemy_max_hp=enemy_stats.max_hp,
             hero_items=items_str if items_str else "none",
             battle_log_string=battle_log_string,
             raw_action=raw_action,
