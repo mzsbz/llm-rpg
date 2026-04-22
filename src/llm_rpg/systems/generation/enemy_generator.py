@@ -1,20 +1,19 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
 import random
+from dataclasses import dataclass
 from typing import Annotated
 
+import pygame
 from pydantic import BaseModel, Field
 
 from llm_rpg.llm.llm import LLM
-import pygame
-
+from llm_rpg.objects.character import Stats
 from llm_rpg.sprite_generator.sprite_generator import (
     SpriteGenerator,
 )
 from llm_rpg.systems.battle.enemy import Enemy, EnemyArchetypes
 from llm_rpg.systems.battle.enemy_action_generators import EnemyActionGenerator
-from llm_rpg.objects.character import Stats
 
 
 @dataclass(frozen=True)
@@ -92,7 +91,7 @@ class EnemyGenerator:
             if self.debug:
                 print("++++++++ DEBUG EnemyGeneration prompt ++++++++")
                 print(prompt)
-                print("++++++++ DEBUG EnemyGeneration prompt ++++++++")
+                print("=" * 10)
             try:
                 output = self.llm.generate_structured_completion(
                     prompt=prompt, output_model=LLMEnemyDescriptionOutput
@@ -100,7 +99,7 @@ class EnemyGenerator:
                 if self.debug:
                     print("-------- DEBUG EnemyGeneration output --------")
                     print(output)
-                    print("-------- DEBUG EnemyGeneration output --------")
+                    print("=" * 10)
                 return EnemyDescription(
                     name=output.name.strip(),
                     description=output.description.strip(),

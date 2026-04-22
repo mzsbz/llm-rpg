@@ -147,7 +147,6 @@ class BattleEnemyThinkingState(State):
                 hero=self.battle_scene.hero,
                 enemy=self.battle_scene.enemy,
                 is_hero_attacker=False,
-                battle_log_string=self.battle_scene.battle_log.to_string_for_battle_ai(),
                 judgment=action_judgment,
                 total_damage=damage_calculation_result.total_dmg,
             )

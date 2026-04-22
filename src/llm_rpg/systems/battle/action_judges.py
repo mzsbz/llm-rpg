@@ -117,7 +117,7 @@ class LLMActionJudge(ActionJudge):
             if self.debug:
                 print("++++++++ DEBUG ActionJudge prompt ++++++++")
                 print(prompt)
-                print("++++++++ DEBUG ActionJudge prompt ++++++++")
+                print("=" * 10)
             try:
                 unscaled_output = self.llm.generate_structured_completion(
                     prompt=prompt, output_model=LLMActionJudgmentOutput
@@ -125,7 +125,7 @@ class LLMActionJudge(ActionJudge):
                 if self.debug:
                     print("-------- DEBUG ActionJudge output --------")
                     print(unscaled_output)
-                    print("-------- DEBUG ActionJudge output --------")
+                    print("=" * 10)
                 return ActionJudgment(
                     feasibility=unscaled_output.feasibility / 10,
                     potential_damage=unscaled_output.potential_damage / 10,

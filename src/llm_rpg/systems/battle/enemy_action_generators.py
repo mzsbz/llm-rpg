@@ -1,10 +1,9 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-
-from llm_rpg.llm.llm import LLM
 from typing import TYPE_CHECKING
 
+from llm_rpg.llm.llm import LLM
 from llm_rpg.systems.battle.battle_log import BattleLog
 
 if TYPE_CHECKING:
@@ -42,10 +41,10 @@ class LLMEnemyActionGenerator(EnemyActionGenerator):
         if self.debug:
             print("++++++++ DEBUG EnemyAction prompt ++++++++")
             print(prompt)
-            print("++++++++ DEBUG EnemyAction prompt ++++++++")
+            print("=" * 10)
         output = self.llm.generate_completion(prompt)
         if self.debug:
             print("-------- DEBUG EnemyAction output --------")
             print(output)
-            print("-------- DEBUG EnemyAction output --------")
+            print("=" * 10)
         return output

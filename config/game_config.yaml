@@ -146,19 +146,14 @@ prompts:
     Output JSON.
 
   action_narration: |
-    Narrate a battle action result in one sentence.
+    Describe a battle action in one sentence, weaving in the damage dealt.
 
-    Attacker: {attacker_name} — {attacker_description}
-    Defender: {defender_name} — {defender_description}
-    {hero_name}'s inventory: {items_hero}
-
-    History:
-    {battle_log_string}
-
+    Attacker: {attacker_name}
+    Defender: {defender_name}
     Action: {proposed_action_attacker}
     Feasibility: {feasibility} | Damage potential: {potential_damage} | Damage dealt: {total_damage}
 
-    One sentence only. If infeasible, explain why instead.
+    One sentence only. Describe the action as it happens, naturally incorporating that {total_damage} damage was dealt (e.g. "...dealing {total_damage} damage"). If infeasible, briefly describe the failed attempt.
 
   enemy_next_action: |
     You are {self_name} ({self_description}) fighting {hero_name} ({hero_description}).

@@ -46,7 +46,6 @@ class BattleAI:
         hero: Hero,
         enemy: Enemy,
         is_hero_attacker: bool,
-        battle_log_string: str,
         judgment: ActionJudgment,
         total_damage: int,
     ) -> ActionEffect:
@@ -55,7 +54,6 @@ class BattleAI:
             hero=hero,
             enemy=enemy,
             is_hero_attacker=is_hero_attacker,
-            battle_log_string=battle_log_string,
             judgment=ActionJudgment(
                 feasibility=judgment.feasibility,
                 potential_damage=judgment.potential_damage,
