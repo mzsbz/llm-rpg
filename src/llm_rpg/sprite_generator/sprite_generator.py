@@ -125,13 +125,14 @@ class SDSpriteGenerator(SpriteGenerator):
         return enemy.description
 
     def generate_sprite(self, enemy: Enemy) -> pygame.Surface:
+        dtype = torch.float16 if self.device in ("cuda", "mps") else torch.float32
         pipe = StableDiffusionPipeline.from_single_file(
             self.base_model,
-            torch_dtype=torch.float16,
+            torch_dtype=dtype,
         )
         if self.vae_path:
             vae = AutoencoderKL.from_pretrained(
-                self.vae_path, torch_dtype=torch.float16
+                self.vae_path, torch_dtype=dtype
             )
             pipe.vae = vae
 

@@ -8,20 +8,20 @@ battle_background:
 action_judge:
   backend: "llm"
   llm:
-    model: "llama-3.3-70b-versatile" 
-    type: "groq"
+    model: "llama3.1-8b"
+    type: "cerebras"
 narrator:
   llm:
-    model: "llama-3.3-70b-versatile"
-    type: "groq"
+    model: "llama3.1-8b"
+    type: "cerebras"
 enemy_action:
   llm:
-    model: "llama-3.3-70b-versatile"
-    type: "groq"
+    model: "llama3.1-8b"
+    type: "cerebras"
 enemy_generation:
   llm:
-    model: "llama-3.3-70b-versatile"
-    type: "groq"
+    model: "llama3.1-8b"
+    type: "cerebras"
   character_words_path: "src/llm_rpg/assets/word_lists/characters.txt"
   adjective_words_path: "src/llm_rpg/assets/word_lists/adjectives.txt"
   place_words_path: "src/llm_rpg/assets/word_lists/places.txt"
@@ -34,8 +34,8 @@ sprite_generator:
   lcm_lora_path: "models/sprite/LCM_LoRA_Weights_SD15.safetensors"
   trigger_prompt: "Earthbound_enemy, neutral grey background, pixelart, drop shadow"
   prompt_llm:
-    model: "llama-3.3-70b-versatile"
-    type: "groq"
+    model: "llama3.1-8b"
+    type: "cerebras"
   prompt_template: |
     Generate Stable Diffusion visual tags describing ONLY the physical appearance of this character.
 

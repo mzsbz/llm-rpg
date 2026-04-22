@@ -26,7 +26,7 @@ from llm_rpg.systems.battle.enemy_scaling import (
     LevelingAttributeProbs,
 )
 from llm_rpg.systems.hero.hero import HeroClass
-from llm_rpg.llm.llm import LLM, OllamaLLM, GroqLLM
+from llm_rpg.llm.llm import LLM, OllamaLLM, GroqLLM, CerebrasLLM
 from llm_rpg.llm.llm_cost_tracker import LLMCostTracker
 from llm_rpg.sprite_generator.sprite_generator import (
     DummySpriteGenerator,
@@ -55,6 +55,11 @@ class GameConfig:
                 llm_cost_tracker=LLMCostTracker(),
                 model=llm_config["model"],
             )
+        if llm_config["type"] == "cerebras":
+            return CerebrasLLM(
+                llm_cost_tracker=LLMCostTracker(),
+                model=llm_config["model"],
+            )
         raise ValueError(f"Unsupported LLM type: {llm_config['type']}")
 
     def _is_llm_block(self, block: dict) -> bool:
@@ -65,6 +70,7 @@ class GameConfig:
             in [
                 "ollama",
                 "groq",
+                "cerebras",
             ]
         )
 

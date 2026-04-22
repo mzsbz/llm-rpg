@@ -18,10 +18,10 @@ jobs:
           python-version: '3.10'
       - name: Install dependencies
         run: |
-          pipx install poetry
-          poetry install --with dev
-          poetry run pre-commit install
+          pip install uv
+          uv sync --group dev
+          uv run pre-commit install
       - name: Format and lint
-        run: poetry run pre-commit run --all-files
+        run: uv run pre-commit run --all-files
       - name: Run tests
-        run: poetry run pytest -s -v
+        run: uv run pytest -s -v

@@ -28,21 +28,28 @@ LLM-RPG is intended to be a role-playing game that leverages large language mode
    cd llm-rpg
    ```
 
-2. Install dependencies using Poetry:
+2. Install dependencies using uv:
 
    ```bash
-   poetry install
+   uv sync
    ```
 
-3. Set up your environment variables. You need to set the `GROQ_API_KEY` to use a GroqLLM model. You can do this by creating a `.env` file in the `config` directory:
+3. Set up your environment variables. Create a `.env` file in the `config` directory with your API key.
 
+   **Cerebras** (default):
+   ```plaintext
+   CEREBRAS_API_KEY=your_api_key_here
+   ```
+   Get a free Cerebras API key at [cerebras.ai](https://cerebras.ai).
+
+   **Groq** (alternative):
    ```plaintext
    GROQ_API_KEY=your_api_key_here
    ```
-You can get a Groq API key from [here](https://groq.com/). This gives you free tokens each day.
+   Get a free Groq API key at [groq.com](https://groq.com). Then set `type: "groq"` and `model: "llama-3.3-70b-versatile"` for each LLM entry in `config/game_config.yaml`.
 
 4. Create `/models/sprite` dir then download and place the following models:
-- models/sprite/earthbound_lora.safetensors: [link](https://civitai.com/models/167491)
+- models/sprite/earthbound_lora.safetensors: [link](https://civitai.com/models/167491?modelVersionId=188385)
 - models/sprite/westernBeautiful_v10.safetensors [link](https://civitai.com/models/264807?modelVersionId=298593)
 - models/sprite/LCM_LoRA_Weights_SD15.safetensors: [link](https://civitai.com/models/195519?modelVersionId=424706)
 ## Usage
@@ -50,7 +57,7 @@ You can get a Groq API key from [here](https://groq.com/). This gives you free t
 To start the game, run the following command:
 
 ```bash
-poetry run python -m llm_rpg
+uv run python -m llm_rpg
 ```
 
 ## Local LLMs with ollama
@@ -84,7 +91,7 @@ enemy_action:
 5. Run the game
 
 ```bash
-poetry run python -m llm_rpg
+uv run python -m llm_rpg
 ```
 
 ## Maintaining the codebase
@@ -98,5 +105,5 @@ pre-commit install
 Run tests:
 
 ```bash
-poetry run pytest -s -v
+uv run pytest -s -v
 ```
